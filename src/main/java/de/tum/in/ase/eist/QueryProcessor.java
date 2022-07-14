@@ -2,6 +2,10 @@ package de.tum.in.ase.eist;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class QueryProcessor {
     //testtest
@@ -13,15 +17,36 @@ public class QueryProcessor {
                     "writer in the English language and the world's pre-eminent dramatist.";
         } else if (query.contains("name")) {
            return "Maxi";
-        } else if (query.contains("plus")){
+        } else if (query.contains("plus") || query.contains("+")){
             String[] temp = query.split(" ");
-            int i= Integer.parseInt(temp[2]) + Integer.parseInt(temp[4]);
-            return String.valueOf(i);
-        } else if (query.contains("which of the following numbers is the largest")){
+            List<Integer> numbers = new ArrayList<>();
+            for(String t: temp){
+                t.replace(",", "");
+                try {
+                    int i = Integer.parseInt(t);
+                    numbers.add(i);
+                } catch (NumberFormatException nfe) {
+
+                }
+            }
+            int back = 0;
+            for(int d:numbers){
+                back=back+d;
+            }
+            return String.valueOf(back);
+        } else if (query.contains("largest")){
             String[] temp = query.split(" ");
-            temp[8].replace(",", "");
-            if(Integer.parseInt(temp[8])>Integer.parseInt(temp[9]))return temp[8];
-            else return temp[9];
+            List<Integer> numbers = new ArrayList<>();
+            for(String t: temp){
+                t.replace(",", "");
+                try {
+                    int i = Integer.parseInt(t);
+                    numbers.add(i);
+                } catch (NumberFormatException nfe) {
+
+                }
+            }
+            return String.valueOf(Collections.max(numbers));
         }
         else { // TODO extend the programm here
             return "";
